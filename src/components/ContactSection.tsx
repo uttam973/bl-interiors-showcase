@@ -1,59 +1,21 @@
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
+import { ContactForm } from '@/components/forms/ContactForm';
+import { ServiceInquiryForm } from '@/components/forms/ServiceInquiryForm';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import {
   MapPin,
   Phone,
   Mail,
   Clock,
-  Send,
-  CheckCircle
+  CheckCircle,
+  FileText
 } from 'lucide-react';
 
 const ContactSection = () => {
-  const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    projectType: '',
-    message: ''
-  });
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    toast({
-      title: "Message Sent Successfully!",
-      description: "Thank you for contacting BL Interiors. We'll get back to you within 24 hours.",
-    });
-    
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      projectType: '',
-      message: ''
-    });
-    
-    setIsSubmitting(false);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  const [serviceDialogOpen, setServiceDialogOpen] = useState(false);
 
   const contactInfo = [
     {
@@ -101,117 +63,9 @@ const ContactSection = () => {
 
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Contact Form */}
-          <Card className="card-elegant">
-            <CardContent className="p-8">
-              <h3 className="text-2xl font-playfair font-semibold text-primary mb-6">
-                Send us a Message
-              </h3>
-              
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="name" className="text-sm font-medium text-primary">
-                      Full Name *
-                    </Label>
-                    <Input
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className="mt-1"
-                      placeholder="Enter your full name"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="phone" className="text-sm font-medium text-primary">
-                      Phone Number *
-                    </Label>
-                    <Input
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      required
-                      className="mt-1"
-                      placeholder="+91 XXXXX XXXXX"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <Label htmlFor="email" className="text-sm font-medium text-primary">
-                    Email Address *
-                  </Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="mt-1"
-                    placeholder="your.email@example.com"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="projectType" className="text-sm font-medium text-primary">
-                    Project Type
-                  </Label>
-                  <select
-                    id="projectType"
-                    name="projectType"
-                    value={formData.projectType}
-                    onChange={handleChange}
-                    className="mt-1 w-full px-3 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
-                  >
-                    <option value="">Select project type</option>
-                    <option value="residential">Residential Interior</option>
-                    <option value="commercial">Commercial Space</option>
-                    <option value="hospitality">Hospitality Design</option>
-                    <option value="turnkey">Turnkey Project</option>
-                    <option value="consultation">Design Consultation</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-
-                <div>
-                  <Label htmlFor="message" className="text-sm font-medium text-primary">
-                    Project Details *
-                  </Label>
-                  <Textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    rows={5}
-                    className="mt-1"
-                    placeholder="Tell us about your project requirements, timeline, and budget range..."
-                  />
-                </div>
-
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="btn-gold w-full"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-4 h-4 mr-2" />
-                      Send Message
-                    </>
-                  )}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
+          <div className="flex justify-center">
+            <ContactForm />
+          </div>
 
           {/* Contact Information */}
           <div className="space-y-6">
@@ -240,6 +94,35 @@ const ContactSection = () => {
                     </div>
                   ))}
                 </div>
+              </CardContent>
+            </Card>
+
+            {/* Service Inquiry */}
+            <Card className="card-elegant">
+              <CardContent className="p-8">
+                <h3 className="text-2xl font-playfair font-semibold text-primary mb-4">
+                  Need a Detailed Quote?
+                </h3>
+                <p className="text-muted-foreground mb-6">
+                  For service-specific inquiries and comprehensive project quotes, use our detailed service form.
+                </p>
+                <Dialog open={serviceDialogOpen} onOpenChange={setServiceDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button className="btn-gold w-full">
+                      <FileText className="w-4 h-4 mr-2" />
+                      Request Service Quote
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                    <DialogHeader>
+                      <DialogTitle>Service Inquiry</DialogTitle>
+                      <DialogDescription>
+                        Please fill out this form for detailed service quotes and project discussions.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <ServiceInquiryForm onSuccess={() => setServiceDialogOpen(false)} />
+                  </DialogContent>
+                </Dialog>
               </CardContent>
             </Card>
 

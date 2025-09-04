@@ -1,4 +1,5 @@
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
+import { NewsletterSignup } from '@/components/forms/NewsletterSignup';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -69,43 +70,22 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact Info */}
+          {/* Newsletter */}
           <div>
-            <h4 className="font-playfair font-semibold text-lg mb-4">Contact Info</h4>
-            <div className="space-y-3">
-              <div className="flex items-start space-x-3">
-                <MapPin className="h-4 w-4 text-accent mt-0.5 flex-shrink-0" />
-                <div className="text-white/80 text-sm">
-                  <p>No 16/1, Omshakti Residency</p>
-                  <p>9th Main Road, 14th Cross</p>
-                  <p>NS Palya, BG Road</p>
-                  <p>Bangalore – 560076</p>
-                </div>
-              </div>
-              
-              <div className="flex items-center space-x-3">
-                <Phone className="h-4 w-4 text-accent flex-shrink-0" />
-                <span className="text-white/80 text-sm">+91 98806 17307</span>
-              </div>
-              
-              <div className="flex items-center space-x-3">
-                <Mail className="h-4 w-4 text-accent flex-shrink-0" />
-                <span className="text-white/80 text-sm">bl.interiors@yahoo.com</span>
-              </div>
-              
-              <div className="flex items-start space-x-3">
-                <Clock className="h-4 w-4 text-accent mt-0.5 flex-shrink-0" />
-                <div className="text-white/80 text-sm">
-                  <p>Mon-Sat: 9:00 AM - 7:00 PM</p>
-                  <p>Sun: 10:00 AM - 5:00 PM</p>
-                </div>
-              </div>
-            </div>
+            <h4 className="font-playfair font-semibold text-lg mb-4">Stay Updated</h4>
+            <p className="text-white/80 text-sm mb-4 leading-relaxed">
+              Subscribe to our newsletter for the latest projects, design trends, and company updates.
+            </p>
+            <NewsletterSignup 
+              showName={true}
+              placeholder="Enter your email"
+              className="space-y-2"
+            />
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/20 mt-12 pt-8">
+        <div className="border-t border-white/20 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-white/80 text-sm">
               <p>© {currentYear} BL Interiors. All rights reserved.</p>
