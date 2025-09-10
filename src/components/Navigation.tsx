@@ -1,18 +1,20 @@
 import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Phone, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
 
   const navItems = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Services', href: '#services' },
-    { name: 'Portfolio', href: '#portfolio' },
-    { name: 'Clients', href: '#clients' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Home', href: '/', isRoute: true },
+    { name: 'About', href: '/about', isRoute: true },
+    { name: 'Services', href: '#services', isRoute: false },
+    { name: 'Portfolio', href: '#portfolio', isRoute: false },
+    { name: 'Clients', href: '#clients', isRoute: false },
+    { name: 'Contact', href: '#contact', isRoute: false },
   ];
 
   useEffect(() => {
@@ -46,20 +48,37 @@ const Navigation = () => {
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
               {navItems.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className={`px-3 py-2 text-sm font-medium transition-colors duration-200 relative group ${
-                    isScrolled 
-                      ? 'text-gray-700 hover:text-amber-600' 
-                      : 'text-foreground hover:text-accent'
-                  }`}
-                >
-                  {item.name}
-                  <span className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
-                    isScrolled ? 'bg-amber-600' : 'bg-accent'
-                  }`}></span>
-                </a>
+                item.isRoute ? (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className={`px-3 py-2 text-sm font-medium transition-colors duration-200 relative group ${
+                      isScrolled 
+                        ? 'text-gray-700 hover:text-amber-600' 
+                        : 'text-foreground hover:text-accent'
+                    }`}
+                  >
+                    {item.name}
+                    <span className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
+                      isScrolled ? 'bg-amber-600' : 'bg-accent'
+                    }`}></span>
+                  </Link>
+                ) : (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className={`px-3 py-2 text-sm font-medium transition-colors duration-200 relative group ${
+                      isScrolled 
+                        ? 'text-gray-700 hover:text-amber-600' 
+                        : 'text-foreground hover:text-accent'
+                    }`}
+                  >
+                    {item.name}
+                    <span className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
+                      isScrolled ? 'bg-amber-600' : 'bg-accent'
+                    }`}></span>
+                  </a>
+                )
               ))}
             </div>
           </div>
@@ -104,14 +123,25 @@ const Navigation = () => {
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-background/95 backdrop-blur-sm border-b border-border/50">
             {navItems.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="text-foreground hover:text-accent block px-3 py-2 text-base font-medium transition-colors duration-200"
-                onClick={() => setIsOpen(false)}
-              >
-                {item.name}
-              </a>
+              item.isRoute ? (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className="text-foreground hover:text-accent block px-3 py-2 text-base font-medium transition-colors duration-200"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              ) : (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className="text-foreground hover:text-accent block px-3 py-2 text-base font-medium transition-colors duration-200"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.name}
+                </a>
+              )
             ))}
             <div className="pt-4 pb-2 border-t border-border/50 mt-4">
               <div className="flex flex-col space-y-2 px-3">
