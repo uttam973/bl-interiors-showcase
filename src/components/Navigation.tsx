@@ -88,14 +88,14 @@ const Navigation = () => {
             <div className={`flex items-center space-x-4 text-sm transition-colors duration-300 ${
               isScrolled ? 'text-gray-600' : 'text-muted-foreground'
             }`}>
-              <div className="flex items-center space-x-1">
+              {/* <div className="flex items-center space-x-1">
                 <Phone className="h-4 w-4" />
                 <span>+91 98806 17307</span>
-              </div>
-              <div className="flex items-center space-x-1">
+              </div> */}
+              {/* <div className="flex items-center space-x-1">
                 <Mail className="h-4 w-4" />
                 <span>bl.interiors@yahoo.com</span>
-              </div>
+              </div> */}
             </div>
             <Button className="btn-gold">
               Free Consultation
